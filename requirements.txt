@@ -1,0 +1,9 @@
+sklearn
+matplotlib
+fastapi
+uvicorn
+tfx
+python-snappy
+numpy 
+pandas
+kfp 
