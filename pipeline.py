@@ -26,6 +26,7 @@ def create_pipeline(
     components.append(example_gen)
 
     return pipeline.Pipeline(
+
         pipeline_name=pipeline_name,
         pipeline_root=pipeline_root,
         components=components,
