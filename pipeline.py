@@ -3,14 +3,15 @@ from tfx.proto import example_gen_pb2
 from tfx.orchestration import pipeline 
 import os  
 from tfx.components import CsvExampleGen 
+from tfx.components import StatisticsGen
 
 def create_pipeline(
     pipeline_name,
     pipeline_root,
     data_path,
     serving_dir,
-    metadata_connection_config=None,
-    beam_pipeline_args=None
+    beam_pipeline_args = None,
+    metadata_connection_config=None
 ):
     components =[]
 
@@ -25,11 +26,14 @@ def create_pipeline(
     example_gen = CsvExampleGen(input_base=data_path, output_config=output)
     components.append(example_gen)
 
+    statistics_gen = StatisticsGen(examples=example_gen.outputs['examples'])
+    components.append(statistics_gen)
+
     return pipeline.Pipeline(
 
         pipeline_name=pipeline_name,
         pipeline_root=pipeline_root,
         components=components,
-        metadata_connection_config=metadata_connection_config,
-        beam_pipeline_args=beam_pipeline_args
+        beam_pipeline_args=beam_pipeline_args,
+        metadata_connection_config=metadata_connection_config
     )
