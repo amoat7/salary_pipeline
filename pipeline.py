@@ -4,6 +4,9 @@ from tfx.orchestration import pipeline
 import os  
 from tfx.components import CsvExampleGen 
 from tfx.components import StatisticsGen
+from tfx.components import SchemaGen 
+from tfx.components import ExampleValidator
+
 
 def create_pipeline(
     pipeline_name,
@@ -28,6 +31,19 @@ def create_pipeline(
 
     statistics_gen = StatisticsGen(examples=example_gen.outputs['examples'])
     components.append(statistics_gen)
+
+    schema_gen = SchemaGen(statistics=statistics_gen.outputs['statistics'])
+    components.append(schema_gen)
+
+    validator  = ExampleValidator(
+        statistics=statistics_gen.outputs['statistics'],
+        schema=schema_gen.outputs['schema']
+    )
+    components.append(validator)
+
+    
+
+
 
     return pipeline.Pipeline(
 

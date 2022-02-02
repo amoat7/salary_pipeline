@@ -7,10 +7,12 @@ suffix = int(time.time())
 
 PIPELINE_NAME = f'salary_prediction_{suffix}'
 PIPELINE_ROOT = 'gs://singular_willow_pipeline/metadata'
-DATA_PATH = 'gs://singular_willow_pipeline/bigdata'
+DATA_PATH = 'gs://singular_willow_pipeline/data'
 SERVING_DIR = 'gs://singular_willow_pipeline/models'
-temp = 'gs://singular_willow_pipeline/temp'
+#temp = 'gs://singular_willow_pipeline/temp'
 
+
+'''
 beam_pipeline_args = [
     "--runner=DataflowRunner",
     "--experiments=shuffle_mode=auto",
@@ -19,9 +21,7 @@ beam_pipeline_args = [
     f"--region=us-central1",
     "--disk_size_gb=50"
 ]
-
-
-
+'''
 
 def run():
     
@@ -36,8 +36,7 @@ def run():
             pipeline_name=PIPELINE_NAME,
             pipeline_root=PIPELINE_ROOT,
             serving_dir=SERVING_DIR,
-            data_path=DATA_PATH,
-            beam_pipeline_args= beam_pipeline_args
+            data_path=DATA_PATH
         )
     )
 
@@ -46,4 +45,4 @@ if __name__ == '__main__':
     logging.set_verbosity(logging.INFO)
     run()
 
-#tfx pipeline create --pipeline-path=kubeflow_dag_runner.py --endpoint=https://d196cf8f136a082-dot-us-central1.pipelines.googleusercontent.com
+#tfx pipeline create --pipeline-path=kubeflow_dag_runner.py --endpoint=https://6c04783b0063a2f7-dot-us-central1.pipelines.googleusercontent.com/
