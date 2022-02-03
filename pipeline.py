@@ -6,8 +6,10 @@ from tfx.components import CsvExampleGen
 from tfx.components import StatisticsGen
 from tfx.components import SchemaGen 
 from tfx.components import ExampleValidator
+from tfx.components import Transform 
 
 
+_census_transform_module_file = 'census_transform.py'
 def create_pipeline(
     pipeline_name,
     pipeline_root,
@@ -40,6 +42,11 @@ def create_pipeline(
         schema=schema_gen.outputs['schema']
     )
     components.append(validator)
+
+    transform = Transform(examples=example_gen.outputs['examples'],
+        schema=schema_gen.outputs['schema'],
+        module_file=_census_transform_module_file)
+    components.append(transform)
 
     
 
