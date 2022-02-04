@@ -9,7 +9,9 @@ from tfx.components import ExampleValidator
 from tfx.components import Transform 
 
 
-_census_transform_module_file = 'census_transform.py'
+
+census_transform_module_file = 'census_transform.py'
+
 def create_pipeline(
     pipeline_name,
     pipeline_root,
@@ -43,9 +45,11 @@ def create_pipeline(
     )
     components.append(validator)
 
-    transform = Transform(examples=example_gen.outputs['examples'],
+    transform  = Transform(
+        examples=example_gen.outputs['examples'],
         schema=schema_gen.outputs['schema'],
-        module_file=_census_transform_module_file)
+        module_file=census_transform_module_file
+    )
     components.append(transform)
 
     
