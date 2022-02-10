@@ -7,3 +7,4 @@ python-snappy
 numpy 
 pandas
 kfp 
+sympy
